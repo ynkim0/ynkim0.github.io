@@ -2,7 +2,9 @@ title: Between math and data science
 author: ynkim0
 email: hffuf7799@gmail.com
 description: > # this means to ignore newlines until "show_exerpts:"
-  Studying machine learning
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
 show_excerpts: true # set to true to show excerpts on the homepage
 
 # Minima date format
@@ -17,7 +19,7 @@ plainwhite:
   search: true # set to true to enable searchbar
   dark_mode: true # set to true to add dark mode toggle
   portfolio_image: "assets/portfolio.png" # the path from the base directory of the site to the image to display (no / at the start)
-  html_lang: "kr" # set the lang attribute of the <html> tag for the pages. See here for a list of codes: https://www.w3schools.com/tags/ref_country_codes.asp
+  html_lang: "en" # set the lang attribute of the <html> tag for the pages. See here for a list of codes: https://www.w3schools.com/tags/ref_country_codes.asp
   condensed_mobile:
     #- home
     - page
@@ -25,7 +27,7 @@ plainwhite:
   # generate social links in footer
   social_links:
     #twitter: samarsault
-    github: ynkim0
+    github:  ynkim0
     #linkedIn: in/samarsault
     #dribbble: jekyll
     #flickr:   jekyll
@@ -52,7 +54,6 @@ plainwhite:
 
 # Build settings
 theme: plainwhite
-remote_theme : samarsault/plainwhite-jekyll
 
 plugins:
   - jekyll-seo-tag
