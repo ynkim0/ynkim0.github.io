@@ -25,7 +25,7 @@ plainwhite:
   # generate social links in footer
   social_links:
     #twitter: samarsault
-    github:  ynkim0
+    github: ynkim0
     #linkedIn: in/samarsault
     #dribbble: jekyll
     #flickr:   jekyll
@@ -51,6 +51,7 @@ plainwhite:
 # - about.md
 
 # Build settings
+markdown: kramdown
 theme: plainwhite
 
 plugins:
