@@ -42,7 +42,8 @@ social:
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: 김예나
   email: hffuf7799@gmail.com             # change to your email address
-  links: https://github.com/ynkim0
+  links: 
+      - https://github.com/ynkim0
     # The first element serves as the copyright owner's link
           # change to your twitter homepage
           # change to your github homepage
