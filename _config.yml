@@ -51,8 +51,8 @@ plainwhite:
 # - about.md
 
 # Build settings
-markdown: kramdown
 theme: plainwhite
+remote_theme : samarsault/plainwhite-jekyll
 
 plugins:
   - jekyll-seo-tag
