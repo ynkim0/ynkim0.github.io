@@ -1,8 +1,12 @@
 ---
 layout: post
 title:  "로컬에서 github 저장소에 푸시하기"
-date:   2022-04-14 21:04:04 +0900
-categories: git
+author: 김예나
+date:   2022-04-15 04:41:00 +0900
+categories: [git]
+tags: [git]
+math: true
+mermaid: true
 ---
   
 
@@ -17,8 +21,8 @@ categories: git
 
 이미 다운로드 되어있다면 패스하시면 됩니다.  
   
-git : https://git-scm.com/download/에서 운영체제 선택 후 다운로드하면 되는데,
-windows의 빠른 링크는 http://git-scm.com/download/win입니다.  
+git : <https://git-scm.com/download/>에서 운영체제 선택 후 다운로드하면 되는데,
+windows의 빠른 링크는 <http://git-scm.com/download/win>입니다.  
 
 
 
@@ -27,10 +31,10 @@ windows의 빠른 링크는 http://git-scm.com/download/win입니다.
 
 git에서 제공하는 커맨드 창이 있습니다. 이것을 열고 로컬에 저장소를 만들 디렉토리를 생성합시다.  
   
-{% highlight ruby %}
+```
 mkdir [디렉토리 이름]
 cd [디렉토리 이름]
-{% endhighlight %}
+```
   
 [디렉토리 이름]에는 본인이 원하는 디렉토리의 이름을 지정해서 넣어 주시면 됩니다. mkdir은 디렉토리를 생성하고, cd는 해당 디렉토리로 이동하는 명령어입니다.  
 
@@ -42,25 +46,25 @@ cd [디렉토리 이름]
   
 먼저, 저장소에 들어가서 Code 밑의 주소를 복사해줍니다.  
   
-{% highlight ruby %}
+```
 git clone [복사한 주소]
-{% endhighlight %}
+```
 
 
 다음으로, git bash에 위와 같이 입력하면 위에서 만들었던 디렉토리에 저장소 이름으로 파일이 만들어집니다. 저장소 이름은 복사한 주소의 가장 마지막에 [저장소 이름].git에서 알 수 있습니다. 이제 이 디렉토리 안으로 이동할 겁니다.  
   
-{% highlight ruby %}
+```
 cd [저장소 이름]
-{% endhighlight %}
+```
 
 
 ## 4\. branch 만들고 확인하기  
 
 
-{% highlight ruby %}
+```
 git checkout -b [branch 이름]
 git status
-{% endhighlight %}
+```
   
 git checkout -b는 새 branch를 만들어주며 해당 브랜치로 이동시켜줍니다. 만들고 난 후에는 status 명령어로 이를 확인합니다.  
 
@@ -68,10 +72,10 @@ git checkout -b는 새 branch를 만들어주며 해당 브랜치로 이동시�
 ## 5\. clone한 디렉토리 내부에 새 디렉토리 생성하기  
 
 
-{% highlight ruby %}
+```
 mkdir [새 디렉토리 이름]
 cd [새 디렉토리 이름]
-{% endhighlight %}
+```
   
 mkdir로 새 디렉토리를 만들고, cd로 해당 디렉토리로 이동했습니다.  
 
@@ -79,10 +83,10 @@ mkdir로 새 디렉토리를 만들고, cd로 해당 디렉토리로 이동했�
 ## 6\. 파일 만들고 확인하기  
 
 
-{% highlight ruby %}
+```
 touch test.py
 git status
-{% endhighlight %}
+```
   
 파일을 생성합니다. 저는 테스트 용도로 만든 파일이기 때문에 test.py로 만들었습니다. 이제 status 명령어로 확인해보면 untracked files에 test.py이 생겼습니다.  
 
@@ -90,9 +94,9 @@ git status
 ## 7\. add하기  
 
 
-{% highlight ruby %}
+```
 git add .
-{% endhighlight %}
+```
   
 git add 명령어는 파일을 untracked files 영역에서 changes to be committed 영역으로 넘겨 줍니다. 생성된 파일이 하나뿐이기때문에 git add test.py를 사용할 수도 있지만, 현재 디렉토리의 모든 변경 내용을 add하고 싶을 때는 git add .을 사용하면 됩니다.  
 
@@ -100,9 +104,9 @@ git add 명령어는 파일을 untracked files 영역에서 changes to be commit
 ## 8\. commit하기  
 
 
-{% highlight ruby %}
+```
 git commit -m "git test"
-{% endhighlight %}
+```
   
 따옴표 안에는 변경 내용의 설명을 적습니다. 저는 git test라고 적었습니다. commit을 하면 변경 내용이 저장소에 올라가기 위해 대기하는 상태가 됩니다.  
 
@@ -112,9 +116,9 @@ git commit -m "git test"
 
 git push를 입력하면 에러 메세지가 나오는데, 기본 브랜치 설정을 해줘야 하므로 다음과 같이 입력합니다.  
   
-{% highlight ruby %}
+```
 git push --set-upstream origin [branch 이름]
-{% endhighlight %}  
+```
 
   
 여기까지 한 후 저장소에서 해당 branch에 들어가보면 test.py 파일이 push된 것을 확인할 수 있습니다.  
