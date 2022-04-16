@@ -11,7 +11,9 @@ mermaid: true
   
 
 포스팅에 앞서, 앞으로 혼공머신러닝에 관한 포스팅은 혼자 공부하는 머신러닝+딥러닝의 책 내용을 공부하며 정리한 것이라는 점을 밝힙니다.
-혼공머신러닝 : <https://books.google.co.kr/books?id=9Q0REAAAQBAJ&printsec=frontcover&dq=%ED%98%BC%EA%B3%B5%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D&hl=ko&sa=X&ved=2ahUKEwirhffTyZj3AhWEMd4KHfqVDy4Q6AF6BAgFEAI#v=onepage&q=%ED%98%BC%EA%B3%B5%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D&f=false>
+
+
+혼공머신러닝 책 : <https://books.google.co.kr/books?id=9Q0REAAAQBAJ&printsec=frontcover&dq=%ED%98%BC%EA%B3%B5%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D&hl=ko&sa=X&ved=2ahUKEwirhffTyZj3AhWEMd4KHfqVDy4Q6AF6BAgFEAI#v=onepage&q=%ED%98%BC%EA%B3%B5%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D&f=false>
 
 
 이 책에서는 도미와 빙어를 구분하는 예제로 k-최근접 이웃 알고리즘을 소개하였습니다. 다음은 x축을 생선의 길이, y축을 생선의 무게로 정하였을 때 도미와 방어의 데이터를 산점도로 나타낸 것입니다.
