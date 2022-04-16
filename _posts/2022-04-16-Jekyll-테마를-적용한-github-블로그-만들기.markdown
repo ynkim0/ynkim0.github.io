@@ -17,7 +17,7 @@ mermaid: true
 
 
 Ruby : <https://www.ruby-lang.org/ko/documentation/installation/>
-이 페이지에 루비 설치 방법에 관해 자세히 나와 있습니다. 저는 ruby에 관해서는 잘 몰랐기 때문에 windows를 위한 <https://rubyinstaller.org/>를 다운받아 설치하였습니다.
+이 페이지에 루비 설치 방법에 관해 자세히 나와 있습니다. 저는 ruby에 관해서는 잘 몰랐기 때문에 windows를 위한 <https://rubyinstaller.org/>에서 다운받아 설치하였습니다.
 
 
 ## 2\. 깃헙 레포지토리 만들고 clone하기
