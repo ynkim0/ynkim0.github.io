@@ -17,6 +17,7 @@ mermaid: true
 
 
 Ruby : <https://www.ruby-lang.org/ko/documentation/installation/>
+
 이 페이지에 루비 설치 방법에 관해 자세히 나와 있습니다. 저는 ruby에 관해서는 잘 몰랐기 때문에 windows를 위한 <https://rubyinstaller.org/>에서 다운받아 설치하였습니다.
 
 
@@ -78,23 +79,40 @@ tools/init.sh
 저는 이 부분에서 어디부터 어디까지 수정해야 할지 감이 안 왔는데, 혹시나 저와 같은 분들을 위해 수정해야 할 부분을 안내합니다.
 
 lang: ko
+
 timezone: Asia/Seoul
+
 title: 블로그 타이틀
+
 tagline: 타이틀 아래 설명
+
 description: >-                        
+
   블로그 소개
+
 url: 'https://username.github.io/'
+
 github:
+
   username: 깃헙 username
+
 social:
+
   name: 본명
+
   email: 이메일 주소
+
   links: 
+
       - 본인이 가지고 있는 sns 링크
+
 theme_mode:  light 또는 dark 선택하여 입력
+
 avatar: 'avatar 이미지가 있는 주소'
 
+
 개인적인 생각으로는 title과 tagline은 짧게 입력하는 편이 깔끔해 보이는 것 같습니다.
+
 
 이 설정에서 애먹었던 부분은 avatar에 사용할 이미지를 assets의 img 파일에 집어넣고 해당 로컬 주소(/assets/img/profie.jpg)를 입력했는데 이미지가 적용되지 않았습니다. 당시에는 initiallize를 건너뛰고 했기 때문에 문제가 발생했는지는 모르겠지만 그래서 저는 github의 프로필 이미지 주소를 따서 넣었고, 그렇게 하고 나니 잘 동작했습니다.
 ![image](https://user-images.githubusercontent.com/80688900/163667180-c8d96f34-ee25-485b-b2bf-51ff9ba21169.png)
@@ -133,7 +151,7 @@ Gemfile.lock이 github에 push되면 문제를 일으킵니다. 왜 문제가 �
 
 저의 경우 (1)만 하고 (2)를 하지 않았을 때 앞서 언급했던 페이지가 정상적으로 출력되지 않고 index 파일만 출력되는 문제가 발생했습니다. 둘 다 하지 않았을 때는 Action 탭에서 Error: The process '/opt/hostedtoolcache/Ruby/2.7.6/x64/bin/bundle' failed with exit code 16과 같은 에러가 발생하였음을 확인했습니다.
 
-+) plainwhite 테마를 적용했을 때는 빌드 중에 github-pages 225 | Error:  The plainwhite theme could not be found. 에러가 발생했는데, 이 문제는 해결법을 찾지 못했습니다. 분명 plainwhite는 멀쩡히 업로드되어 있었는데 왜 인식하지 못하는지 모르겠습니다. 구글링을 하다가 같은 문제가 발생했다는 글을 두 개정도 발견했지만 해결책은 쓰여 있지 않았습니다. 다만, 이때는 Gemfile.lock 파일을 삭제하지 않은 채로 올렸었기 때문에 혹시나 삭제해보면 어땠을까 하는 생각이 듭니다.
+plainwhite 테마를 적용했을 때는 빌드 중에 github-pages 225 | Error:  The plainwhite theme could not be found. 에러가 발생했는데, 이 문제는 해결법을 찾지 못했습니다. 분명 plainwhite는 멀쩡히 업로드되어 있었는데 왜 인식하지 못하는지 모르겠습니다. 구글링을 하다가 같은 문제가 발생했다는 글을 두 개정도 발견했지만 해결책은 쓰여 있지 않았습니다. 다만, 이때는 Gemfile.lock 파일을 삭제하지 않은 채로 올렸었기 때문에 혹시나 삭제해보면 어땠을까 하는 생각이 듭니다.
 
 
 ## 8\. github에 push하고 branch 세팅 바꾸기
