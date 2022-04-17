@@ -1,0 +1,18 @@
+---
+layout: post
+title:  "test"
+author: 김예나
+date:   2022-04-17 19:51:00 +0900
+categories: [git]
+tags: [git]
+math: true
+mermaid: true
+---
+  
+
+코드블럭이 하이라이팅 되지 않는 문제 해결 중입니다.
+
+
+``` python
+# 문제 확인 중
+```
