@@ -34,7 +34,7 @@ mermaid: true
 지난 장에서 공부했던 도미와 빙어 데이터 분류 모델 평가에는 한 가지 문제가 있었습니다. 훈련에 사용한 데이터를 그대로 평가에 사용했기 때문에, 정답을 전부 알려준 뒤 답을 맞춰 보라는 식의 문제가 되었던 것입니다. 그래서 이번 장에서는 슬라이싱을 이용해 데이터를 테스트 세트와 훈련 세트로 분류합니다.
 
 
-```python
+``` python
 fish_length = [25.4, 26.3, 26.5, 29.0, 29.0, 29.7, 29.7, 30.0, 30.0, 30.7, 31.0, 31.0, 
                 31.5, 32.0, 32.0, 32.0, 33.0, 33.0, 33.5, 33.5, 34.0, 34.0, 34.5, 35.0, 
                 35.0, 35.0, 35.0, 36.0, 36.0, 37.0, 38.5, 38.5, 39.5, 41.0, 41.0, 9.8, 
@@ -58,7 +58,7 @@ test_target = fish_target[35:]
 그런데 여기서 다시 한 번 문제가 발생하게 됩니다.
 
 
-```python
+``` python
 from sklearn.neighbors import KNeighborsClassifier
 
 kn = KNeighborsClassifier()
@@ -75,7 +75,7 @@ kn.score(test_input, test_target)
 ### (1) 파이썬 리스트를 넘파이 배열로 변환
 
 
-```python
+``` python
 import numpy as np
 # 파이썬 리스트를 넘파이 배열로 변환
 input_arr = np.array(fish_data)
@@ -86,7 +86,7 @@ target_arr = np.array(fish_target)
 ### (2) index 배열을 생성하고 무작위로 섞음
 
 
-```python
+``` python
 np.random.seed(42) # 무작위 결과를 실행 시마다 동일하게 만들 수 있도록 하는 역할
 index = np.arange(49) # 0 ~ 48까지 1씩 증가하는 배열 생성
 np.random.shuffle(index) # 배열을 무작위로 섞음
@@ -96,7 +96,7 @@ np.random.shuffle(index) # 배열을 무작위로 섞음
 ### (3) 배열 인덱싱을 이용해 훈련 세트와 테스트 세트를 섞음
 
 
-```python
+``` python
 # 배열 인덱싱을 이용해 훈련 세트를 섞음
 train_input = input_arr[index[:35]]
 train_target = target_arr[index[:35]]
@@ -109,7 +109,7 @@ test_target = target_arr[index[35:]]
 이와 같은 방법으로 모델을 훈련시켰을 때 우리는 더 높은 정확도의 결과를 얻을 수 있게 됩니다.
 
 
-```python
+``` python
 kn.fit(train_input, train_target) # 훈련
 kn.score(test_input, test_target) # 평가
 ```

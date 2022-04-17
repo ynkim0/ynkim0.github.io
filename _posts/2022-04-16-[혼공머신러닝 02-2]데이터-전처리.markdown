@@ -28,13 +28,13 @@ mermaid: true
 ### (1) column_stack
 
 
-```python
+``` python
 np.column_stack(([1,2,3], [4,5,6])) # 매개변수로 사용된 리스트들의 값을 하나씩 추출해서 2차원 넘파이 배열로 만들어 줌
 ```
 
 이것의 결과로 우리는 array([[1, 4], [2, 5], [3, 6]])를 얻습니다. 이 명령어는 수학적으로 생각하면 전치행렬을 생성해 준다고 볼 수 있겠습니다.
 
-```python
+``` python
 np.column_stack(([1,2,3], [4,5]))
 ```
 
@@ -44,7 +44,7 @@ np.column_stack(([1,2,3], [4,5]))
 하지만, 어떤 데이터들의 각 특성 개수는 모두 동일할 것이므로 이런 걱정은 하지 않아도 된다는 점을 알게 되었습니다. column_stack을 이용한 데이터 형태 변환은 아주 간단합니다.
 
 
-```python
+``` python
 fish_data = np.column_stack((fish_length, fish_weight))
 ```
 
@@ -52,7 +52,7 @@ fish_data = np.column_stack((fish_length, fish_weight))
 ### (2) concatenate
 
 
-```python
+``` python
 fish_target = np.concatenate((np.ones(35), np.zeros(14)))
 ```
 
@@ -71,7 +71,7 @@ fish_target = np.concatenate((np.ones(35), np.zeros(14)))
 ### (1) random_state
 
 
-```python
+``` python
 train_input, test_input, train_target, test_target = train_test_split(
     fish_data, fish_target, random_state=42)
 ```
@@ -82,7 +82,7 @@ train_input, test_input, train_target, test_target = train_test_split(
 ### (2) stratify
 
 
-```python
+``` python
 train_input, test_input, train_target, test_target = train_test_split(
     fish_data, fish_target, stratify=fish_target, random_state=42) # stratify : 타겟 배열을 넣으면 도미와 빙어의 비율을 맞춰 줌
 ```
@@ -97,10 +97,10 @@ stratify에 타겟 배열을 할당하면 훈련 세트와 테스트 세트의 �
 모델을 훈련할 때 특성 간의 스케일이 크게 차이난다면 평가 점수가 떨어질 수 있습니다. 이를 막기 위해 데이터를 표준화합니다.
 
 
-## (1) numpy의 mean, std를 이용해 훈련 세트의 평균과 표준편차 구하기
+### (1) numpy의 mean, std를 이용해 훈련 세트의 평균과 표준편차 구하기
 
 
-```python
+``` python
 # axis=0 : 열, axis = 1 : 행
 mean = np.mean(train_input, axis=0) # 평균
 std = np.std(train_input, axis=0) # 표준편차
@@ -110,10 +110,10 @@ std = np.std(train_input, axis=0) # 표준편차
 이때 axis = 0을 선택한다면 열 별 평균과 표준편차를 얻을 수 있으므로 각 틍성 별 표준편차가 mean과 std에 저장됩니다.
 
 
-## (2) 표준화(Z = X-평균/표준편차)
+### (2) 표준화(Z = X-평균/표준편차)
 
 
-```python
+``` python
 train_scaled = (train_input - mean) / std # 표준화 Z = X-평균/표준편차
 ```
 
@@ -121,13 +121,13 @@ train_scaled = (train_input - mean) / std # 표준화 Z = X-평균/표준편차
 mean과 std에는 각각 두 개씩의 값이 저장되어 있는데, train_input이라는 2열로 구성된 배열에 각 열마다 값을 계산해 결과를 도출합니다. 따라서 배열을 슬라이싱하거나 인덱싱할 필요 없이 한 번만 계산해 주어도 됩니다. 이를 브로드캐스팅이라 합니다.
 
 
-## (3) 훈련 및 평가, 예측
+### (3) 훈련 및 평가, 예측
 
 
 표준화가 끝난 데이터로 모델을 훈련하는 과정은 전과 동일합니다. 다만, 알아야 할 것은 예측하고자 하는 데이터와 테스트 세트의 데이터도 표준화해야 올바른 결과를 얻을 수 있다는 것입니다. 표준화 과정은 훈련 데이터의 표준화와 동일합니다.
 
 
-```python
+``` python
 new = ([25, 150] - mean) / std # 예측하고자 하는 데이터 표준화
 kn.fit(train_scaled, train_target) # 훈련
 test_scaled = (test_input - mean) / std # 테스트 데이터 표준화
@@ -142,7 +142,7 @@ https://github.com/ynkim0/study/blob/main/2-2.ipynb
 
 
 
-```python
+``` python
 fish_length = [25.4, 26.3, 26.5, 29.0, 29.0, 29.7, 29.7, 30.0, 30.0, 30.7, 31.0, 31.0, 
                 31.5, 32.0, 32.0, 32.0, 33.0, 33.0, 33.5, 33.5, 34.0, 34.0, 34.5, 35.0, 
                 35.0, 35.0, 35.0, 36.0, 36.0, 37.0, 38.5, 38.5, 39.5, 41.0, 41.0, 9.8, 
@@ -166,7 +166,7 @@ test_target = fish_target[35:]
 그런데 여기서 다시 한 번 문제가 발생하게 됩니다.
 
 
-```python
+``` python
 from sklearn.neighbors import KNeighborsClassifier
 
 kn = KNeighborsClassifier()
@@ -183,7 +183,7 @@ kn.score(test_input, test_target)
 ### (1) 파이썬 리스트를 넘파이 배열로 변환
 
 
-```python
+``` python
 import numpy as np
 # 파이썬 리스트를 넘파이 배열로 변환
 input_arr = np.array(fish_data)
@@ -194,7 +194,7 @@ target_arr = np.array(fish_target)
 ### (2) index 배열을 생성하고 무작위로 섞음
 
 
-```python
+``` python
 np.random.seed(42) # 무작위 결과를 실행 시마다 동일하게 만들 수 있도록 하는 역할
 index = np.arange(49) # 0 ~ 48까지 1씩 증가하는 배열 생성
 np.random.shuffle(index) # 배열을 무작위로 섞음
@@ -204,7 +204,7 @@ np.random.shuffle(index) # 배열을 무작위로 섞음
 ### (3) 배열 인덱싱을 이용해 훈련 세트와 테스트 세트를 섞음
 
 
-```python
+``` python
 # 배열 인덱싱을 이용해 훈련 세트를 섞음
 train_input = input_arr[index[:35]]
 train_target = target_arr[index[:35]]
@@ -217,7 +217,7 @@ test_target = target_arr[index[35:]]
 이와 같은 방법으로 모델을 훈련시켰을 때 우리는 더 높은 정확도의 결과를 얻을 수 있게 됩니다.
 
 
-```python
+``` python
 kn.fit(train_input, train_target) # 훈련
 kn.score(test_input, test_target) # 평가
 ```
