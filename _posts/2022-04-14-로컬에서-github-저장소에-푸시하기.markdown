@@ -31,7 +31,7 @@ windows의 빠른 링크는 <http://git-scm.com/download/win>입니다.
 
 git에서 제공하는 커맨드 창이 있습니다. 이것을 열고 로컬에 저장소를 만들 디렉토리를 생성합시다.  
   
-```
+```shell
 mkdir [디렉토리 이름]
 cd [디렉토리 이름]
 ```
@@ -46,14 +46,14 @@ cd [디렉토리 이름]
   
 먼저, 저장소에 들어가서 Code 밑의 주소를 복사해줍니다.  
   
-```
+```shell
 git clone [복사한 주소]
 ```
 
 
 다음으로, git bash에 위와 같이 입력하면 위에서 만들었던 디렉토리에 저장소 이름으로 파일이 만들어집니다. 저장소 이름은 복사한 주소의 가장 마지막에 [저장소 이름].git에서 알 수 있습니다. 이제 이 디렉토리 안으로 이동할 겁니다.  
   
-```
+```shell
 cd [저장소 이름]
 ```
 
@@ -61,7 +61,7 @@ cd [저장소 이름]
 ## 4\. branch 만들고 확인하기  
 
 
-```
+```shell
 git checkout -b [branch 이름]
 git status
 ```
@@ -72,7 +72,7 @@ git checkout -b는 새 branch를 만들어주며 해당 브랜치로 이동시�
 ## 5\. clone한 디렉토리 내부에 새 디렉토리 생성하기  
 
 
-```
+```shell
 mkdir [새 디렉토리 이름]
 cd [새 디렉토리 이름]
 ```
@@ -83,7 +83,7 @@ mkdir로 새 디렉토리를 만들고, cd로 해당 디렉토리로 이동했�
 ## 6\. 파일 만들고 확인하기  
 
 
-```
+```shell
 touch test.py
 git status
 ```
@@ -94,7 +94,7 @@ git status
 ## 7\. add하기  
 
 
-```
+```shell
 git add .
 ```
   
@@ -104,7 +104,7 @@ git add 명령어는 파일을 untracked files 영역에서 changes to be commit
 ## 8\. commit하기  
 
 
-```
+```shell
 git commit -m "git test"
 ```
   
@@ -116,7 +116,7 @@ git commit -m "git test"
 
 git push를 입력하면 에러 메세지가 나오는데, 기본 브랜치 설정을 해줘야 하므로 다음과 같이 입력합니다.  
   
-```
+```shell
 git push --set-upstream origin [branch 이름]
 ```
 

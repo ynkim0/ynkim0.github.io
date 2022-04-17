@@ -66,7 +66,7 @@ Chirpy
 
 git bash를 열어 로컬 저장소가 있는 디렉토리로 이동(cd 저장소 경로)한 뒤 다음과 같이 입력합니다.
 
-```
+```bash
 tools/init.sh
 ```
 프로필 사진이나 post 등을 삭제해 사용자가 직접 지우지 않아도 되도록 초기화해줍니다.
@@ -128,7 +128,7 @@ Ruby Command를 열어 로컬 저장소가 있는 디렉토리로 이동(cd 저�
 
 여기까지 완료되었으면 다음 명령들을 순서대로 입력합니다.
 
-```
+```ruby
 gem install jekyll bundler
 bundle
 jekyll serve
@@ -159,7 +159,7 @@ plainwhite 테마를 적용했을 때는 빌드 중에 github-pages 225 | Error:
 
 Ruby Command를 열어 로컬 저장소가 있는 디렉토리로 이동(cd 저장소 경로)한 뒤 다음과 같이 입력합니다. Ruby 외의 다른 command창을 사용해도 괜찮습니다.
 
-```
+```shell
 git add .
 git commit -m "blog"
 git push -u origin main
