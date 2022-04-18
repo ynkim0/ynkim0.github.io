@@ -146,11 +146,13 @@ Gemfile.lock이 github에 push되면 문제를 일으킵니다. 왜 문제가 �
 해결법은 다음과 같습니다.
 
 (1) .gitignore의 # bundler cache 아래에 Gemfile.lock 추가하기
+
 (2) Gemfile.lock 파일 삭제하기
 
 저의 경우 (1)만 하고 (2)를 하지 않았을 때 앞서 언급했던 페이지가 정상적으로 출력되지 않고 index 파일만 출력되는 문제가 발생했습니다. 둘 다 하지 않았을 때는 Action 탭에서 Error: The process '/opt/hostedtoolcache/Ruby/2.7.6/x64/bin/bundle' failed with exit code 16과 같은 에러가 발생하였음을 확인했습니다.
 
-plainwhite 테마를 적용했을 때는 빌드 중에 github-pages 225 | Error:  The plainwhite theme could not be found. 에러가 발생했는데, 이 문제는 해결법을 찾지 못했습니다. 분명 plainwhite는 멀쩡히 업로드되어 있었는데 왜 인식하지 못하는지 모르겠습니다. 구글링을 하다가 같은 문제가 발생했다는 글을 두 개정도 발견했지만 해결책은 쓰여 있지 않았습니다. 다만, 이때는 Gemfile.lock 파일을 삭제하지 않은 채로 올렸었기 때문에 혹시나 삭제해보면 어땠을까 하는 생각이 듭니다.
+
+plainwhite 테마를 적용했을 때는 빌드 중에 Error:  The plainwhite theme could not be found가 발생했는데, 이 문제는 해결법을 찾지 못했습니다. 분명 plainwhite는 멀쩡히 업로드되어 있었는데 왜 인식하지 못하는지 모르겠습니다. 구글링을 하다가 같은 문제가 발생했다는 글을 두 개정도 발견했지만 해결책은 쓰여 있지 않았습니다. 다만, 이때는 Gemfile.lock 파일을 삭제하지 않은 채로 올렸었기 때문에 혹시나 삭제해보면 어땠을까 하는 생각이 듭니다.
 
 
 ## 8\. github에 push하고 branch 세팅 바꾸기
