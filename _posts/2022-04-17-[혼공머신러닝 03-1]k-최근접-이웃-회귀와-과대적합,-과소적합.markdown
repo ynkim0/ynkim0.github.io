@@ -129,4 +129,5 @@ print(knr.score(test_input, test_target))
 
 
 공부한 내용의 전체 코드는 github에 작성해 두었습니다.
+
 <https://github.com/ynkim0/study/blob/main/3-1.ipynb>
