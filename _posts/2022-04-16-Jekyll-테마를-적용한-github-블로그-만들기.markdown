@@ -103,8 +103,7 @@ social:
   email: 이메일 주소
 
   links: 
-
-      - 본인이 가지고 있는 sns 링크
+    - 본인이 가지고 있는 sns 링크
 
 theme_mode:  light 또는 dark 선택하여 입력
 
