@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "jekyll 블로그에 utterances 댓글창 만들기"
+title:  "Jekyll 블로그에 utterances 댓글창 만들기"
 author: 김예나
 date:   2022-04-25 21:00:00 +0900
 categories: [study]
