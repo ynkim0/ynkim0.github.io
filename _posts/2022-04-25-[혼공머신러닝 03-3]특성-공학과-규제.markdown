@@ -1,0 +1,142 @@
+---
+layout: post
+title:  "[혼공머신러닝 03-3]특성 공학과 규제"
+author: 김예나
+date:   2022-04-25 21:55:00 +0900
+categories: [study]
+tags: [machine learning]
+math: true
+mermaid: true
+---
+  
+
+## 1\. pandas로 데이터 불러오기
+
+
+특성 공학과 규제에 관해 배우기에 앞서, pandas를 이용해 데이터를 불러오는 방법을 먼저 학습하였습니다.
+
+
+```python
+import pandas as pd # 데이터프레임, csv 관리
+df = pd.read_csv('https://bit.ly/perch_csv_data')
+perch_full = df.to_numpy() # datafame을 numpy 배열로
+print(perch_full)
+```
+
+
+csv 파일이란 데이터가 컴마(,)로 구분된 파일로, 이 파일을 불러오면 pandas는 dataframe이라는 형태로 데이터를 저장합니다. dataframe을 기존에 사용했었던 numpy 배열로 바꾸기 위해서는 to_numpy라는 명령어를 사용하면 됩니다.
+
+
+## 2\. 변환기 PolynomialFeatures
+
+
+변환기란, 제목에 쓰인 특성 공학을 위한 도구로 그중에서도 오늘 사용한 PolynomialFeatures는 특성끼리 곱하거나 특성 자신을 제곱하여 새로운 특성을 만들어내는 변환기입니다.
+
+
+모든 변환기는 fit과 transform의 과정을 통해 특성을 추가하게 되는데, fit을 할 때에는 훈련 세트를 이용해야 한다는 점을 기억해야 합니다.
+
+
+```python
+from sklearn.preprocessing import PolynomialFeatures # 다항회귀
+poly = PolynomialFeatures() # 변환기 객체는 훈련 세트를 이용해 fit한 후 transform하는 동일한 메서드로 구성
+poly.fit([[2, 3]])
+print(poly.transform([[2, 3]]))
+=> [[1. 2. 3. 4. 6. 9.]]
+```
+
+
+이와 같이 2, 3 두 개의 특성을 곱하거나, 제곱한 값들이 새로 추가됨을 확인할 수 있는데, 1은 절편 값이 추가된 것으로 매개변수 include_bias=False를 이용해 없앨 수 있습니다. 이것을 없애는 이유는 어차피 fit을 할 때 절편값을 특성으로 포함하게 되기 때문입니다.
+
+
+변환기를 사용할 때 주의할 점은 지나치게 많은 특성을 만든다면 모델이 훈련 세트에 과대적합 될 가능성이 매우 높아진다는 것입니다. 이렇게 과대적합 된 모델에 규제를 가하는 방법으로 릿지와 라쏘에 관해 배웠습니다.
+
+
+## 2\. 릿지와 라쏘
+
+
+책에서는 릿지와 라쏘의 원리에 관해서는 자세히 설명해주지 않았기 때문에 원리나 왜 이것을 하기 전에는 표준화를 하는 것이 좋은지에 관해서는 이해할 수 없었지만, 원리는 나중에 따로 공부해 보도록 하고 사용법에 관해 먼저 알아보겠습니다. 우선, StandardScaler를 이용해 표준화를 먼저 해봅시다.
+
+
+```python
+from sklearn.preprocessing import StandardScaler # 릿지 또는 라쏘를 적용하기 전에 스케일을 맞춰줄 것
+
+ss = StandardScaler()
+ss.fit(train_poly)
+
+train_scaled = ss.transform(train_poly)
+test_scaled = ss.transform(test_poly)
+```
+
+
+릿지는 잔차제곱합에 패널티 항을 더해 패널티 항의 크기에 따라 얼마나 규제를 할지가 달라지는데, 이 값은 파라미터 alpha로 조절합니다.
+
+
+```python
+from sklearn.linear_model import Ridge # 릿지 = 잔차제곱합 + 패널티 항
+
+ridge = Ridge()
+ridge.fit(train_scaled, train_target)
+print(ridge.score(train_scaled, train_target))
+=>0.9896101671037343
+print(ridge.score(test_scaled, test_target))
+=>0.9790693977615397
+```
+
+
+사용법은 지금껏 사용해왔던 여타 방법과 동일하게, fit을 한 뒤 score를 통해 평가하면 됩니다.
+
+
+```python
+from sklearn.linear_model import Lasso # 가중치들의 절댓값의 합이 최소가 되게 하는 규제
+
+lasso = Lasso()
+lasso.fit(train_scaled, train_target)
+print(lasso.score(train_scaled, train_target))
+=>0.989789897208096
+print(lasso.score(test_scaled, test_target))
+=>0.9800593698421883
+```
+
+같은 방법으로 사용하는 라쏘는 가중치들의 절댓값의 합이 최소가 되게 하는 규제로, 항들의 계수를 0으로 만들 수 있습니다. coef_ 명령어를 이용하면 몇 개의 계수가 0이 되었는지 확인해볼 수도 있습니다.
+
+
+그런데, 릿지와 라쏘의 alpha는 하이퍼파라미터이기 때문에 사용자가 직접 어떤 값을 넣을지 결정해야 합니다. 그것을 결정하기 위한 방법으로 우리는 alpha_list에 여러 값을 준비해두고, 해당 값에서 모델의 훈련 세트, 테스트 세트의 평가 점수가 가장 가까운 지점을 찾으면 됩니다.
+
+
+릿지로 예를 들어 그림을 그려 보면, 다음과 같습니다.
+
+
+```python
+import matplotlib.pyplot as plt
+
+train_score = []
+test_score = []
+alpha_list = [0.001, 0.01, 0.1, 1, 10, 100] # 릿지의 가장 알맞은 파라미터 alpha 찾기
+for alpha in alpha_list:
+    # 릿지 모델을 만듭니다
+    ridge = Ridge(alpha=alpha)
+    # 릿지 모델을 훈련합니다
+    ridge.fit(train_scaled, train_target)
+    # 훈련 점수와 테스트 점수를 저장합니다
+    train_score.append(ridge.score(train_scaled, train_target))
+    test_score.append(ridge.score(test_scaled, test_target))
+plt.plot(np.log10(alpha_list), train_score)
+plt.plot(np.log10(alpha_list), test_score)
+plt.xlabel('alpha')
+plt.ylabel('R^2')
+plt.show()
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/165102600-595800b2-b938-411b-b79e-f705a1bf35f9.png)
+
+
+이 경우 가장 알맞은 alpha 값은 -1, 즉 10에 지수를 취하면 0.1이 되어야 합니다. 라쏘도 같은 방법으로 alpha를 찾을 수 있습니다.
+
+
+다만, 이번에 Dacon 회귀 문제를 풀어보면서 릿지와 라쏘를 사용해봤는데, alpha 값을 바꿔 봐도 생각만큼 score의 변화가 극적이지는 않았습니다. 모델이 심하게 과소적합 되어있는 경우 오히려 polynomial features의 degree를 바꿔 주면 큰 효과를 볼 수 있었습니다.
+
+
+공부한 내용의 전체 코드는 github에 작성해 두었습니다.
+
+<https://github.com/ynkim0/study/blob/main/3-3.ipynb>
