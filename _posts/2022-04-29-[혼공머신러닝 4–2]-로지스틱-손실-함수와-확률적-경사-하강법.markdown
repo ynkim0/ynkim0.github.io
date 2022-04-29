@@ -1,0 +1,131 @@
+---
+layout: post
+title:  "[혼공머신러닝 4–2] 로지스틱 손실 함수와 확률적 경사 하강법"
+author: 김예나
+date:   2022-04-29 16:00:00 +0900
+categories: [study]
+tags: [machine learning]
+math: true
+mermaid: true
+---
+
+
+## 1\. 손실함수란
+
+
+이 장에서는 확률적 경사 하강법과 손실함수라는 새로운 개념에 관해 배웠는데, 이런 개념을 도입한 까닭은 계속해서 새로운 데이터가 추가되어 매번 모든 데이터를 가지고 학습할 수 없는 경우, 새로운 방법이 필요하기 때문입니다. 그래서 제시된 것이 확률적 경사 하강법이며, 확률적 경사 하강법을 적용하기 위해서는 손실 함수가 반드시 필요합니다.
+
+
+확률적 경사 하강법은 손실함수의 값을 최저로 줄이는 지점을 찾도록 임의의 데이터를 택해 에포크를 반복하는 방법입니다. 이 장에서 소개한 로지스틱 손실 함수는 타깃이 1일 때는 -log(예측 확률), 0일 때는 -log(1-예측 확률)을 함수값으로 합니다.
+
+
+이진 분류에서는 1일 때와 0일 때의 사건이 서로 배반이기 때문에 0일 때 1-예측확률을 계산하면 1일 때의 값이 됩니다. 함수값을 이렇게 정의하는 까닭은 손실 함수가 미분 가능해야 하기 때문에 연속성을 부여하기 위함입니다. 예측치가 타깃에 가까울수록 함수값이 더 낮습니다.
+
+
+다중 분류에서 이와 비슷하게 사용하는 손실 함수는 크로스엔트로피 손실 함수입니다. 또, 회귀에서는 평균 제곱 오차를 손실 함수로 사용하며, 뒤에서 소개하는 hinge 함수는 서포트 벡터 머신(SVM)에서 사용합니다.
+
+
+이제 이론을 알았으니 직접 코딩을 해봅시다.
+
+
+## 2\. 확률적 경사 하강법
+
+
+```python
+import pandas as pd
+
+fish = pd.read_csv('https://bit.ly/fish_csv_data')
+fish_input = fish[['Weight','Length','Diagonal','Height','Width']].to_numpy()
+fish_target = fish['Species'].to_numpy()
+from sklearn.model_selection import train_test_split
+
+train_input, test_input, train_target, test_target = train_test_split(
+    fish_input, fish_target, random_state=42)
+from sklearn.preprocessing import StandardScaler
+
+ss = StandardScaler()
+ss.fit(train_input)
+train_scaled = ss.transform(train_input)
+test_scaled = ss.transform(test_input)
+```
+
+
+이제 데이터를 준비하고 표준화하는 과정은 당연하니 굳이 언급하지 않겠습니다.
+
+
+```python
+from sklearn.linear_model import SGDClassifier
+sc = SGDClassifier(loss='log', max_iter=10, random_state=42) # loss : 손실 함수, log : 로지스틱 손실 함수, max_iter : 최대 에포크 횟수
+sc.fit(train_scaled, train_target)
+
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+=>0.773109243697479
+=>0.775
+```
+
+
+SGDClassifier의 매개변수로는 loss, max_iter를 알아둬야 하는데 loss는 사용할 손실 함수이고, max_iter는 최대로 반복할 에포크의 횟수입니다. 아직 평가 점수가 높지 않으므로 에포크를 1회 더 수행해보겠습니다.
+
+
+```python
+sc.partial_fit(train_scaled, train_target) # 에포크를 1회 수행
+
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+=>0.8151260504201681
+=>0.85
+```
+
+
+정확도가 더 높아진 것을 볼 수 있습니다. 그렇다면 에포크 횟수를 얼마로 정해야 과대적합과 과소적합을 피할 수 있을까요? 이 문제의 해결책을 찾기 위해서 1회마다 훈련 세트와 테스트 세트의 평가 점수를 저장하는 배열을 만들고, matplotlib로 그래프를 그려 봅시다.
+
+
+```python
+import numpy as np
+
+sc = SGDClassifier(loss='log', random_state=42)
+
+train_score = []
+test_score = []
+
+classes = np.unique(train_target)
+for _ in range(0, 300): # _는 이후에 사용하지 않을 변수
+    sc.partial_fit(train_scaled, train_target, classes=classes) # fit를 사용하지 않고 partial_fit만 사용할 때는 전체 클래스의 레이블을 전달해야 함
+    
+    train_score.append(sc.score(train_scaled, train_target))
+    test_score.append(sc.score(test_scaled, test_target))
+import matplotlib.pyplot as plt
+
+plt.plot(train_score)
+plt.plot(test_score)
+plt.xlabel('epoch')
+plt.ylabel('accuracy')
+plt.show()
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/165898806-2fcf3ea5-3417-4131-9619-826aa9e99e0f.png)
+
+
+코드에서 한 가지 주의할 점은, 훈련 시 fit를 사용하지 않고 1회의 에포크를 수행하는 partial_fit만을 사용할 경우 전체 클래스의 레이블을 전달해야 한다는 것입니다.
+
+
+그래프를 보면 에포크 100 이상에서 훈련 세트의 정확도가 테스트 세트의 정확도보다 급격히 높아져 과대적합되고 있으므로 100에서 조기종료 하는 것이 적절합니다. max_iter을 100으로 설정해 다시 확률적 경사 하강법을 수행해보겠습니다.
+
+
+```python
+sc = SGDClassifier(loss='log', max_iter=100, tol=None, random_state=42) # tol은 전달된 변수만큼의 변화가 없을 때 더 훈련하지 않고 자동으로 멈추게 함
+sc.fit(train_scaled, train_target)
+
+print(sc.score(train_scaled, train_target))
+print(sc.score(test_scaled, test_target))
+```
+
+
+훈련 세트에서 0.957983193277311의 평가를, 테스트 세트에서 0.925의 평가를 받았습니다.
+
+
+공부한 내용의 전체 코드는 github에 작성해 두었습니다.
+
+<https://github.com/ynkim0/study/blob/main/4-2.ipynb>
