@@ -80,3 +80,8 @@ utterances를 통해 생성된 issue를 구분하기 위해 어떤 label을 달�
 
 
 이와 같은 형태이며, github 로그인을 하고 댓글을 작성하면 저장소의 issue에 댓글이 등록됩니다.
+
+
+다만, 최근에 utterances와 설치 방법이 동일한 giscus를 사용하여 handson을 했는데 제 테마에서는 여기까지만 해도 적용이 되었지만 적용이 되지 않는 테마도 있었습니다. 그런 경우 이 글을 참고해주세요.
+
+<https://yhp2205.github.io/coments/>
