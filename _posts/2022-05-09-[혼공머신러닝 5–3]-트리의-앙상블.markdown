@@ -1,0 +1,200 @@
+---
+layout: post
+title:  "[혼공머신러닝 5–3] 트리의 앙상블"
+author: 김예나
+date:   2022-05-09 21:10:00 +0900
+categories: [study]
+tags: [machine learning]
+math: true
+mermaid: true
+---
+
+
+앞선 장에서 결정 트리에 관해 공부했는데, 이번 장에서는 그 트리들을 앙상블한 네 가지 알고리즘에 관해 배웠습니다.
+
+
+## 1\. 랜덤 포레스트
+
+
+랜덤 포레스트는 랜덤한 결정 트리들로 숲을 구성한 앙상블입니다. 각각의 결정 트리를 위한 데이터는 랜덤하게 구성되는데, 이때 각각의 데이터는 부트스트랩 샘플입니다. 부트스트랩 샘플은 훈련 세트와 동일한 크기로 만드는데, 훈련 세트에서 중복하여 샘플을 뽑는 것입니다.
+
+이렇게 샘플을 뽑고 나면 각 노드를 분할하게 되는데, 이때 전체 특성 중에 무작위로 고른 일부 특성에서 최선의 분할을 찾습니다. 기본적으로 무작위로 일부 특성을 고를 때는 전체 특성의 제곱근만큼의 특성을 택합니다. 이를 통해 한 특성에 관한 의존도를 낮출 수 있습니다.
+
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+wine = pd.read_csv('https://bit.ly/wine_csv_data')
+
+data = wine[['alcohol', 'sugar', 'pH']].to_numpy()
+target = wine['class'].to_numpy()
+
+train_input, test_input, train_target, test_target = train_test_split(data, target, test_size=0.2, random_state=42)
+from sklearn.model_selection import cross_validate
+from sklearn.ensemble import RandomForestClassifier # 랜덤 포레스트
+
+rf = RandomForestClassifier(n_jobs=-1, random_state=42)
+scores = cross_validate(rf, train_input, train_target, return_train_score=True, n_jobs=-1) # return_train_score:훈련 세트의 평가 점수도 출력
+
+print(np.mean(scores['train_score']), np.mean(scores['test_score']))
+=>0.9973541965122431 0.8905151032797809
+```
+
+
+랜덤 포레스트는 oob_score_이라는 특이한 모델 자체 평가 점수를 제공하는데, OOB 샘플을 통해 모델을 평가하는 것입니다. OOB 샘플이란 부트스트랩 샘플에 포함되지 않고 남는 샘플로, 검증 세트와 같은 효과를 얻을 수 있어 훈련 세트에 더 많은 샘플을 사용할 수 있습니다.
+
+
+```python
+rf = RandomForestClassifier(oob_score=True, n_jobs=-1, random_state=42) # oob_score:전체 모델에서 부트스트랩 샘플에 포함되지 않은 데이터들로 검증 세트를 대신하여 테스트할 수 있음
+
+rf.fit(train_input, train_target)
+print(rf.oob_score_)
+```
+
+
+또한, 결정 트리와 같이 각 특성들의 정확도를 확인해볼 수 있는데, 당도에 의한 의존성이 적다는 것을 알 수 있습니다.
+
+
+```python
+rf.fit(train_input, train_target) 
+print(rf.feature_importances_) # 결정 트리보다 당도에 의한 의존성 적음
+=>[0.23167441 0.50039841 0.26792718]
+```
+
+
+## 2\. 엑스트라 트리
+
+
+엑스트라 트리는 기본적으로 랜덤 포레스트와 비슷한데, 차이점은 부트스트랩을 사용하지 않고 전체 훈련 세트를 사용한다는 것입니다. 또한, 노드를 분할할 때는 가장 좋은 분할을 찾지 않고 랜덤으로 분할합니다. 때문에 일반적으로 랜덤 포레스트보다 더 많은 트리를 사용해야 합니다. 이렇게 하면 각 트리의 성능은 낮아지겠지만 일반성은 더 높아집니다.
+
+
+```python
+from sklearn.ensemble import ExtraTreesClassifier # 부트스트랩 샘플을 사용하지 않는 앙상블 트리, 노드를 분할할 때 무작위로 분할
+
+et = ExtraTreesClassifier(n_jobs=-1, random_state=42)
+scores = cross_validate(et, train_input, train_target, return_train_score=True, n_jobs=-1)
+
+print(np.mean(scores['train_score']), np.mean(scores['test_score']))
+=>0.9974503966084433 0.8887848893166506
+```
+
+
+랜덤 포레스트와 마찬가지로 각 특성의 정확도를 확인해보면 당도에 의한 의존성이 적습니다.
+
+
+```python
+et.fit(train_input, train_target) 
+print(et.feature_importances_) # 결정 트리보다 당도에 의한 의존성 적음
+=>[0.20183568 0.52242907 0.27573525]
+```
+
+
+## 3\. 그레이디언트 부스팅
+
+
+그레이디언트 부스팅은 깊이가 얕은 결정 트리 여러 개를 사용하여 순차적으로 이전 트리의 오차를 보완하는 방식으로, 기본값으로 깊이 3인 결정 트리 100개를 사용합니다. 오차를 보완하는 방법은 경사 하강법을 사용하며, 분류에서는 로지스틱 손실 함수, 회귀에서는 평균 제곱 오차 함수를 사용합니다.
+
+
+```python
+from sklearn.ensemble import GradientBoostingClassifier # 그래디언트 부스팅
+
+gb = GradientBoostingClassifier(random_state=42)
+scores = cross_validate(gb, train_input, train_target, return_train_score=True, n_jobs=-1)
+
+print(np.mean(scores['train_score']), np.mean(scores['test_score']))
+=>0.8881086892152563 0.8720430147331015
+```
+
+
+그레이디언트 부스팅은 결정 트리 개수를 늘려도 과대적합을 잘 방지하며, 앞선 두 개의 앙상블보다는 한 가지 특성에 대한 의존성이 높습니다.
+
+
+```python
+result = permutation_importance(hgb, test_input, test_target, n_repeats=10,
+                                random_state=42, n_jobs=-1)
+print(result.importances_mean)
+=>[0.05969231 0.20238462 0.049     ]
+```
+
+
+이 알고리즘의 단점은 병렬 처리가 불가능해 속도가 느리다는 것으로, 이것을 보완한 방법을 이 다음부터 소개하겠습니다.
+
+
+## 4\. 히스토그램 기반 그레이디언트 부스팅
+
+
+히스토그램 기반 그레이디언트 부스팅은 정형 데이터 머신러닝 중 가장 인기가 높은 알고리즘이라고 합니다. 이 알고리즘은 입력 특성을 256개로 나눠 최적의 분할을 빠르게 찾을 수 있으며, 그 구간 중 하나를 누락된 값을 위해 사용하기 때문에 입력에 누락된 특성이 있더라도 이를 전처리할 필요가 없습니다.
+
+
+```python
+from sklearn.ensemble import HistGradientBoostingClassifier # 히스토그램 그래디언트 부스팅, 정형 데이터에서 가장 인기 있음, 입력 특성을 256개의 구간으로 나눔
+
+hgb = HistGradientBoostingClassifier(random_state=42)
+scores = cross_validate(hgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+
+print(np.mean(scores['train_score']), np.mean(scores['test_score']))
+=>0.9321723946453317 0.8801241948619236
+```
+
+
+이제 이 알고리즘에서의 특성 중요도는 어떤지 알아보겠습니다.
+
+
+```python
+from sklearn.inspection import permutation_importance
+
+hgb.fit(train_input, train_target)
+result = permutation_importance(hgb, train_input, train_target, n_repeats=10,
+                                random_state=42, n_jobs=-1) # n_repeats:랜덤하게 섞을 횟수(기본값 5)
+print(result.importances_mean)
+=>[0.08876275 0.23438522 0.08027708]
+```
+
+
+훈련 세트에서는 랜덤 포레스트와 비슷합니다.
+
+
+```python
+result = permutation_importance(hgb, test_input, test_target, n_repeats=10,
+                                random_state=42, n_jobs=-1)
+print(result.importances_mean)
+```
+
+
+테스트 세트에서는 그레이디언트 부스팅과 비슷합니다.
+
+
+히스토그램 기반 그레이디언트 부스팅은 사이킷런 외에도 여러 라이브러리에 구현되어 있습니다. 책에서는 XGBoostm과 LightGBM을 소개하였습니다. 먼저, XGBoostm에서 tree_method를 hist로 지정하여 사용하는 것을 알아보겠습니다.
+
+
+```python
+from xgboost import XGBClassifier
+
+xgb = XGBClassifier(tree_method='hist', random_state=42)
+scores = cross_validate(xgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+
+print(np.mean(scores['train_score']), np.mean(scores['test_score']))
+=>0.8824322471423747 0.8726214185237284
+```
+
+
+LightGBM은 빠르고 최신 기술을 많이 적용하고 있다고 합니다.
+
+
+```python
+from lightgbm import LGBMClassifier
+
+lgb = LGBMClassifier(random_state=42)
+scores = cross_validate(lgb, train_input, train_target, return_train_score=True, n_jobs=-1)
+
+print(np.mean(scores['train_score']), np.mean(scores['test_score']))
+=>0.9338079582727165 0.8789710890649293
+```
+
+
+
+공부한 내용의 전체 코드는 github에 작성해 두었습니다.
+
+<https://github.com/ynkim0/study/blob/main/5-3.ipynb>
