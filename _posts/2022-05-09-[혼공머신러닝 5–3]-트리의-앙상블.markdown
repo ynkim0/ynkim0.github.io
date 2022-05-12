@@ -166,7 +166,7 @@ print(result.importances_mean)
 테스트 세트에서는 그레이디언트 부스팅과 비슷합니다.
 
 
-히스토그램 기반 그레이디언트 부스팅은 사이킷런 외에도 여러 라이브러리에 구현되어 있습니다. 책에서는 XGBoostm과 LightGBM을 소개하였습니다. 먼저, XGBoostm에서 tree_method를 hist로 지정하여 사용하는 것을 알아보겠습니다.
+히스토그램 기반 그레이디언트 부스팅은 사이킷런 외에도 여러 라이브러리에 구현되어 있습니다. 책에서는 XGBoostm과 LightGBM을 소개하였습니다. 먼저, XGBoost에서 tree_method를 hist로 지정하여 사용하는 것을 알아보겠습니다.
 
 
 ```python
