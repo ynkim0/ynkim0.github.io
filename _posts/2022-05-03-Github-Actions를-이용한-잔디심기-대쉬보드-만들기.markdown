@@ -69,7 +69,7 @@ note에는 토큰을 사용하는 목적을 적고 expiration에는 토큰의 �
 ![image](https://user-images.githubusercontent.com/80688900/166456776-8731927d-d803-4ce6-a2f8-996cd149cfdc.png)
 
 
-Select scopes는 권한을 사용하는 만큼만 최소로 설정하는 것이 좋다고 쓰여 있기 때문에 저와 동일하게 체크하시고 generate token을 눌러 토큰을 생성해줍니다.
+Select scopes는 권한을 사용하는 만큼만 최소로 설정하는 것이 좋다고 쓰여 있기 때문에(보안 관련 이슈가 생길 수 있다고 metrics ) 저와 동일하게 체크하시고 generate token을 눌러 토큰을 생성해줍니다.
 
 
 생성하고 나면 토큰을 복사할 수 있는 페이지가 나오는데, 두 번은 볼 수 없기 때문에 잘 복사해둡니다.
@@ -139,13 +139,72 @@ jobs:
 ```
 
 
-만약 여러 명을 대쉬보드에서 표시하고자 한다면 - name부터 plugin_isocalendar_duration까지를 반복해 적으면 됩니다.
+steps 아래 부분을 수정하시면 되는데, 제 경우의 예시를 들어 수정해야 하는 부분 네 가지를 알려드리겠습니다.
+
+
+### (1) name
+
+
+```yaml
+name: ynkim0's metrics build
+```
+
+
+name은 빌드 시에 표시되는 작업명입니다. 위와 같이 설정하면 Actions의 실행된 workflow를 확인할 수 있는 부분에서 다음과 같이 표시됨을 확인할 수 있습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/168099677-871ff878-0570-43a0-8ed9-3b40ebbbc502.png)
+
+
+
+### (2) uses
+
+
+```yaml
+uses: ynkim0/metrics@latest
+```
+
+
+uses에는 아까 fork해온 metrics의 위치를 적어야 합니다. @latest는 어떤 버전을 사용할지를 밝히는 것으로 metrics 안내서에 세 가지 정도의 버전이 있었던 것으로 기억합니다.
+
+
+### (3) token
+
+
+```yaml
+token: ${{ secrets.YENAS_METRICS_TOKEN }}
+```
+
+
+token에는 4번, actions secret에 토큰 등록하기에서 등록한 secret 명을 적습니다. 저는 YENAS_METRICS_TOKEN라고 저장했기 때문에 위와 같이 작성했습니다.
+
+
+### (4) filename
+
+
+```yaml
+filename: github-metrics-ynkim0.svg
+```
+
+
+빌드가 정상적으로 완료되면 저장소에는 이 filename의 이름대로 잔디 파일이 생성됩니다. 또, 문제가 없다면 매일 한 번씩 이 파일이 업데이트 됩니다.
+
+
+이제 수정이 끝났습니다.
+
+
+제가 작성한 파일은 다음 링크에서 확인하실 수 있습니다.
+
+<https://github.com/ynkim0/ynkim0/blob/main/.github/workflows/activity_metrics_build.yml>
+
+
+만약 여러 명을 대쉬보드에서 표시하고자 한다면 - name부터 plugin_isocalendar_duration까지를 반복해 적으면 됩니다. 제가 참고한 <https://github.com/yonsei-app-dev-club/yonsei-app-dev-club-2022/blob/main/.github/workflows/activity_metrics_build.yml>에서는 여러 파일을 함께 빌드하였으니 참고하시면 됩니다. 이 경우 각자의 secret은 각자 토큰을 생성하여 저장소에 등록해야 합니다.
 
 
 ## 6\. 시험 구동해 보기
 
 
-다 적었으면 파일을 commit하고 다시 actions 탭으로 이동합니다. 이 파일은 점심(12시)에 새로고침 되기 때문에 그때까지 기다릴 수 없으니 확인하기 위해 시험 구동을 합니다.
+다 적었으면 파일을 commit하고 다시 actions 탭으로 이동합니다. 이 파일은 하루에 한 번 새로고침 되기 때문에 그때까지 기다릴 수 없으니 확인하기 위해 시험 구동을 합니다.
 
 
 ![image](https://user-images.githubusercontent.com/80688900/166467576-baa6cf07-d8e5-4ad3-a381-fe86e04d09f0.png)
