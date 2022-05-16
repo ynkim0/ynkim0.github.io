@@ -1,0 +1,204 @@
+---
+layout: post
+title:  "[혼공머신러닝 6–2] k-means 알고리즘과 엘보우"
+author: 김예나
+date:   2022-05-16 21:20:00 +0900
+categories: [study]
+tags: [machine learning]
+math: true
+mermaid: true
+---
+
+
+저번 장에서는 어떤 데이터가 사과이고, 파인애플이고, 바나나인지 알고 있었기 때문에 각 클러스터의 평균을 쉽게 계산할 수 있었지만, 실전에서는 그것을 알 수가 없습니다. 따라서 어디가 클러스터의 중심인지를 직접 찾아내야 합니다. 그것을 찾아내기 위해서 k-means 알고리즘을 도입합니다.
+
+
+k-means 알고리즘은 임의로 클러스터의 중심을 정한 후 클러스터 중심에 변화가 없을 때까지 각 샘플에서 가장 가까운 클러스터 중심을 찾아 해당 클러스터의 소속으로 지정한 후 클러스터 별로 샘플의 평균값을 구해 클러스터 중심을 변경합니다.
+
+
+## 1\. KMeans 모델
+
+
+우선 저번에 했던 대로 데이터부터 준비해 봅시다.
+
+
+```python
+!wget https://bit.ly/fruits_300_data -O fruits_300.npy
+import numpy as np
+
+fruits = np.load('fruits_300.npy')
+fruits_2d = fruits.reshape(-1, 100*100)
+```
+
+
+fruits_2d는 100x100 픽셀 이미지를 10000개의 원소를 가진 배열로 reshape한 것입니다. 우리는 이 상태로 KMeans 모델에 학습시킬 것입니다.
+
+
+```python
+from sklearn.cluster import KMeans
+
+km = KMeans(n_clusters=3, random_state=42) # 사과, 파인애플, 바나나이므로 클러스터 개수를 3으로 설정
+km.fit(fruits_2d)
+```
+
+
+k-means 알고리즘에서는 데이터를 몇 개의 군집으로 나눌 것인지를 정하는n_clusters를 사용자가 직접 정해야 하는데 이를 정하기 위한 방법은 k-means 알고리즘에 관해 모두 알아본 후 이야기할 것입니다. 우리는 이미 이 데이터 세트가 사과, 바나나, 파인애플로 이루어져 있음을 알고 있으니 n_clusters를 3으로 정하겠습니다.
+
+
+```python
+print(np.unique(km.labels_, return_counts=True))
+=>(array([0, 1, 2], dtype=int32), array([111,  98,  91]))
+```
+
+
+labels_에는 각 샘플 별 소속 클러스터가 저장되어 있으며, np.unique를 이용하면 각 클러스터에 몇 개의 샘플이 속해 있는지를 알 수 있습니다.
+
+
+이제 과일 배열을 넣으면 그래프를 표시해주는 draw_fruits 함수를 만들어 봅시다. 샘플 개수와 행, 열 계수를 계산하는 것 외에는 지난 시간에 이미 과일 그림을 그릴 때 알아보았던 내용이므로 코드만 적어 두겠습니다.
+
+
+```python
+import matplotlib.pyplot as plt
+
+def draw_fruits(arr, ratio=1): # 과일 배열을 넣으면 그래프를 표시
+    n = len(arr)    # n은 샘플 개수입니다
+    # 한 줄에 10개씩 이미지를 그립니다. 샘플 개수를 10으로 나누어 전체 행 개수를 계산합니다. 
+    rows = int(np.ceil(n/10))
+    # 행이 1개 이면 열 개수는 샘플 개수입니다. 그렇지 않으면 10개입니다.
+    cols = n if rows < 2 else 10
+    fig, axs = plt.subplots(rows, cols, 
+                            figsize=(cols*ratio, rows*ratio), squeeze=False)
+    for i in range(rows):
+        for j in range(cols):
+            if i*10 + j < n:    # n 개까지만 그립니다.
+                axs[i, j].imshow(arr[i*10 + j], cmap='gray_r')
+            axs[i, j].axis('off')
+    plt.show()
+```
+
+
+이제 불리언 인덱싱을 이용하면 클러스터 별로 어떤 과일이 모여있는지 그려볼 수 있겠습니다.
+
+
+```python
+draw_fruits(fruits[km.labels_==0])
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/168591451-4e317ac0-c0ab-401e-aca8-d61c8a138a03.png)
+
+
+0번 레이블에는 주로 파인애플이 속해 있습니다.
+
+
+```python
+draw_fruits(fruits[km.labels_==1])
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/168591683-93254a7f-fa64-4575-b084-2212549644b0.png)
+
+
+1번 레이블에는 바나나만이 속해 있습니다.
+
+
+```python
+draw_fruits(fruits[km.labels_==2])
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/168591799-f03dbb6e-a601-4d5c-a4c0-da9edd39d3a9.png)
+
+
+2번 레이블에는 사과가 속해 있습니다.
+
+
+대체로 잘 분류된 것 같습니다.
+
+
+km 객체의 cluster_centers_에는 클러스터 별 중심이 저장되어 있습니다. 우리는 이것을 가지고 지난 번 과일 별 평균 그림과 비슷한 것을 그려볼 수 있습니다.
+
+
+```python
+draw_fruits(km.cluster_centers_.reshape(-1, 100, 100), ratio=3) # 지난 번 과일 별 평균 그림과 비슷한 양상
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/168592309-5bbe6aa7-815a-4800-b034-cd33c60f8693.png)
+
+
+
+또한, 이 객체는 transform이라는 함수를 제공하는데 이 함수는 어떤 샘플의 모든 클러스터 중심까지의 거리를 구할 수 있습니다. 다만, 2차원 배열을 매개변수로 전달해야 하므로 1개의 샘플만을 알고 싶을 때는 슬라이싱을 이용해야 합니다.
+
+
+```python
+print(km.transform(fruits_2d[100:101])) # transform은 2차원 배열을 매개변수로 전달해야 하므로 슬라이싱 사용
+=>[[3393.8136117  8837.37750892 5267.70439881]]
+```
+
+
+이 샘플은 0 레이블의 클러스터와 가장 가깝습니다.
+
+
+```python
+print(km.predict(fruits_2d[100:101]))
+=>[0]
+```
+
+
+실제로 0 레이블의 군집에 속해 있는 것을 볼 수 있으며, 이것이 제대로 분류된 것인지 그림으로 출력하여 확인해 봅시다.
+
+
+```python
+draw_fruits(fruits[100:101])
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/168593960-5190d696-29f7-4678-b569-c396a9fab012.png)
+
+
+이 샘플은 파인애플입니다. 0번 군집은 파인애플들이 많이 모여있었으니 맞게 분류되었다고 할 수 있겠습니다.
+
+
+k-means 모델은 중심을 임의로 지정하여 중심에 변화가 없을 때까지 계속 중심을 다시 계산하는데, n_iter_에는 몇 번을 다시 계산했는지가 나와 있습니다.
+
+
+```python
+print(km.n_iter_) # 중심을 다시 계산한 횟수
+=>4
+```
+
+
+## 2\. 엘보우 방법
+
+
+이제, k-means 모델에 관해 모두 알아보았으니, k를 어떻게 찾으면 좋을지에 관해 알아보겠습니다.
+
+
+우리는 아까 transform 함수를 이용해 각 샘플과 속한 클러스터 중심까지의 거리를 알 수 있었는데, 이 거리를 제곱해 모두 합한 것을 이너셔라고 부릅니다. k값의 증가에 따른 이너셔를 측정해 보면 정확히 분류해야 하는 만큼의 클러스터를 지정했을 때의 기울기가 변하게 되는데, 이를 직접 그래프를 그려서 확인해 보겠습니다.
+
+
+```python
+# 엘보우 방법
+inertia = [] # 이너셔:각 샘플과 속한 클러스터 중심까지의 거리 제곱 합
+for k in range(2, 7):
+    km = KMeans(n_clusters=k, random_state=42)
+    km.fit(fruits_2d)
+    inertia.append(km.inertia_)
+
+plt.plot(range(2, 7), inertia)
+plt.xlabel('k')
+plt.ylabel('inertia')
+plt.show()
+```
+
+
+![image](https://user-images.githubusercontent.com/80688900/168594435-c27be25b-fe3b-4be0-a6f7-d210cb2cd2ad.png)
+
+
+이 그래프는 k=3에서 기울기 변화가 있습니다. 이것을 엘보우 방법이라고 부르는데, 팔이 꺾이는 팔꿈치 부위와 같다고 해서라고 합니다. 이런 변화가 나타나는 이유는 분류해야 하는 만큼의 클러스터가 생긴 이후로는 클러스터가 더 늘어나도 전과 같은 효율을 기대할 수 없기 때문입니다.
+
+
+공부한 내용의 전체 코드는 github에 작성해 두었습니다.
+
+<https://github.com/ynkim0/study/blob/main/6-2.ipynb>
