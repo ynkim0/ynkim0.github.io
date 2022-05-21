@@ -93,19 +93,19 @@ $$\Sigma=E\Lambda E^T$$
 $$\alpha^T \Sigma \alpha=\alpha^T E\Lambda E^T \alpha$$
 
 
-$E$ 또한 크기가 1인 방향벡터이므로 우리는 또 다른 크기가 1인 방향벡터 $\B=E^T\alpha$를 정의할 수 있습니다. 위의 식을 치환합시다.
+$E$ 또한 크기가 1인 방향벡터이므로 우리는 또 다른 크기가 1인 방향벡터 $B=E^T\alpha$를 정의할 수 있습니다. 위의 식을 치환합시다.
 
 
-$$\alpha^T E\Lambda E^T \alpha=\B^T\Lambda\B$$
+$$\alpha^T E\Lambda E^T \alpha=B^T\Lambda B$$
 
 
-이제 $\B^T\Lambda\B$를 전개해 써보면 다음과 같습니다.
+이제 $B^T\Lambda B$를 전개해 써보면 다음과 같습니다.
 
 
 $$\lambda_1\beta_1^2+\lambda_2\beta_2^2+...+\lambda_m\beta_m^2$$
 
 
-이때, $\B$의 크기는 1이므로 $\beta_1^2+\beta_2^2+...+\beta_m^2=1$이며, 고유값 분해에서 $\lambda$의 순서는 각 고유값의 크기에 의해 정해지므로 $\lambda_1>\lambda_2>...>\lambda_m$을 만족합니다. 따라서, 위 식을 maximize하기 위해서는 $\beta_1$이 1, $\B$의 나머지 원소는 0이 되어야 하며, 최적의 해는 $\lambda_1$이고 $\alpha=e_1$입니다.
+이때, $B$의 크기는 1이므로 $\beta_1^2+\beta_2^2+...+\beta_m^2=1$이며, 고유값 분해에서 $\lambda$의 순서는 각 고유값의 크기에 의해 정해지므로 $\lambda_1>\lambda_2>...>\lambda_m$을 만족합니다. 따라서, 위 식을 maximize하기 위해서는 $\beta_1$이 1, $B$의 나머지 원소는 0이 되어야 하며, 최적의 해는 $\lambda_1$이고 $\alpha=e_1$입니다.
 
 
 [영상]:https://youtu.be/FhQm2Tc8Kic
