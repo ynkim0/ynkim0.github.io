@@ -28,7 +28,7 @@ $$A = U\Sigma V^T$$
 선형대수에서 행렬을 분해하는 방법에 관해 많이 배웠었는데, 보통 n x n, symmetric 등 여러 조건이 달려있었는데 SVD는 m x n이라는 점에서 상당히 범용성이 강하다고 느꼈습니다. PCA에서는 주성분 벡터들을 찾기 위하여 특이값 분해를 이용합니다. 이때의 orthogonal matrix $V$는 PCA에 필요한 주성분 행렬을 담고 있습니다.
 
 
-orthogonal matrix는 $XX^T=I$, 말하자면 자신과 transpose matrix의 행렬곱이 단위행렬 I가 되는 행렬으로 transpose가 역행렬이 되는 행렬입니다. orthogonal matirx는 det(XX^T)=det(X)det(X^T)=det(X)^2=1이 되므로 행렬식 det(X)가 항상 1 또는 -1이고, 따라서 orthogonal matrix는 스케일은 변화시키지 않고 회전 변환을 합니다.
+orthogonal matrix는 $XX^T=I$, 말하자면 자신과 transpose matrix의 행렬곱이 단위행렬 I가 되는 행렬으로 transpose가 역행렬이 되는 행렬입니다. orthogonal matirx는 $det(XX^T)=det(X)det(X^T)=det(X)^2=1$이 되므로 행렬식 det(X)가 항상 1 또는 -1이고, 따라서 orthogonal matrix는 스케일은 변화시키지 않고 회전 변환을 합니다.
 
 
 diagonal matrix의 경우에는 보통 n x n 형태를 많이 보는데, m x n 또는 n x m의 경우에도 정의될 수 있습니다. m이 더 크다고 가정했을 때, 전자는 남는 행공간이 0이 되고, 후자는 열공간이 0이 되는 형태입니다. diagonal matrix는 선형 변환 시 방향은 그대로이고 스케일만 변화시키는 스케일 변환을 합니다.
