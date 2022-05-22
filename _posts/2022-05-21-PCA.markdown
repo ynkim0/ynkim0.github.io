@@ -56,10 +56,15 @@ $$A^TA=V\Sigma^T U^T U\Sigma V^T=V\Sigma^T \Sigma V^T(by orthogonal matrix U)=V\
 
 
 $$Z_1 = V_{1, 1}X_1 + V_{1, 2}X_2 + ... + V_{1, n}X_n$$
+
 $$Z_2 = V_{2, 1}X_1 + V_{2, 2}X_2 + ... + V_{2, n}X_n$$
+
 .                                .
+
 .                                .
+
 .                                .
+
 $$Z_n = V_{n, 1}X_1 + V_{n, 2}X_2 + ... + V_{n, n}X_n$$
 
 
