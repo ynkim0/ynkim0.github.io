@@ -46,7 +46,7 @@ $$A^T=(U\Sigma V^T)^T=V\Sigma^TU^T$$
 $$A^TA=V\Sigma^T U^T U\Sigma V^T=V\Sigma^T \Sigma V^T(by orthogonal matrix U)=V\Sigma^2 V^T$$
 
 
-이때 $A^TA$를 고유값 분해하여 $A^TA=P\Lambda P^{-1}$과 같이 표현했다고 생각하면 $V\Sigma^2 V^T$$의 $V$는 $$A^TA$의 고유 벡터들을 가지는 행렬이므로 고유값을 계산하고 고유벡터를 구하는 과정을 통해 구할 수 있습니다.
+이때 $A^TA$를 고유값 분해하여 $A^TA=P\Lambda P^{-1}$과 같이 표현했다고 생각하면 $V\Sigma^2 V^T$의 $V$는 $A^TA$의 고유 벡터들을 가지는 행렬이므로 고유값을 계산하고 고유벡터를 구하는 과정을 통해 구할 수 있습니다.
 
 
 ## 2\. 정사영(projection)
