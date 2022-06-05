@@ -80,7 +80,7 @@ filter_4 = np.array([[0,1,-1],[0,1,-1],[0,1,-1]])
 ```
 
 
-필터 1은 왼쪽 수평 경계, 필터 2는 왼쪽 수직 경계, 필터 3은 아래쪽 수평 경계, 필터 4는 오른쪽 수직 경계를 검출합니다.
+필터 1은 위쪽 수평 경계, 필터 2는 왼쪽 수직 경계, 필터 3은 아래쪽 수평 경계, 필터 4는 오른쪽 수직 경계를 검출합니다.
 
 
 이제 데이터를 사용해 정말 그런지, 어떻게 그럴 수 있는지 확인해 봅시다.
@@ -117,11 +117,11 @@ plt.show()
 
 ```python
 def conv(X, filter):
-  out = np.zeros((25, 25))
-  for h in range(25):
+  out = np.zeros((26, 26))
+  for h in range(26):
     h_start = h
     h_end = h_start + 3
-    for w in range(25):
+    for w in range(26):
       w_start = w
       w_end = w_start + 3
       out[h, w] = np.sum(X[h_start:h_end, w_start:w_end] * filter)
@@ -163,7 +163,7 @@ plt.show()
 ```
 
 
-![image](https://user-images.githubusercontent.com/80688900/172027403-5d5fe2c4-71ac-4eb2-85d8-56afe3c64322.png)
+![image](https://user-images.githubusercontent.com/80688900/172048622-e8be35a8-f59c-4318-9acc-cdbf3d636027.png)
 
 
 밝은 색 = 큰 수이니 각 필터는 검출하고자 하는 윤곽을 제외한 나머지 부분을 거의 0에 가깝게 만들고 필터가 추출하고자 하는 특성이 있는 부분을 눈에 띄게 하였습니다. 어떻게 이런 일이 가능할까 생각해 보면 사실 숫자 놀음이라는 것을 알 수 있습니다.
