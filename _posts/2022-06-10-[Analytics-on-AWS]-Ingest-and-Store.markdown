@@ -207,7 +207,7 @@ Username에는 admin을 입력하고 Password에 비밀번호를 설정합니다
   "device_ts": "{{date.utc("YYYY-MM-DD HH:mm:ss.SSS")}}",
   "device_id": {{random.number(50)}},
   "device_temp": {{random.weightedArrayElement(
-    {"weights":[0.30, 0.30, 0.20, 0.20],"data":[32, 34, 28, 40]}
+    {% raw %}{"weights":[0.30, 0.30, 0.20, 0.20],"data":[32, 34, 28, 40]}{% endraw %}
   )}},
   "track_id": {{random.number(30)}},  
   "activity_type": {{random.weightedArrayElement(
