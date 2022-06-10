@@ -201,25 +201,6 @@ Username에는 admin을 입력하고 Password에 비밀번호를 설정합니다
 로그인하면 나오는 페이지에서 위와 같이 설정하고 다음을 복사합니다.
 
 
-```
-{
-  "uuid": "{{random.uuid}}",
-  "device_ts": "{{date.utc("YYYY-MM-DD HH:mm:ss.SSS")}}",
-  "device_id": {{random.number(50)}},
-  "device_temp": {{random.weightedArrayElement(
-    {% raw %}{"weights":[0.30, 0.30, 0.20, 0.20],"data":[32, 34, 28, 40]}{% endraw %}
-  )}},
-  "track_id": {{random.number(30)}},  
-  "activity_type": {{random.weightedArrayElement(
-        {
-            "weights": [0.1, 0.2, 0.2, 0.3, 0.2],
-            "data": ["\"Running\"", "\"Working\"", "\"Walking\"", "\"Traveling\"", "\"Sitting\""]
-        }
-    )}}
-}
-```
-
-
 ![image](https://user-images.githubusercontent.com/80688900/173006938-adddcfe8-1177-4d60-a893-d7f950a71d4b.png)
 
 
