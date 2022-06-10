@@ -75,7 +75,7 @@ Lab Guide를 보면 이 실습을 위한 전제 조건이 있습니다.
 ![image](https://user-images.githubusercontent.com/80688900/172997775-ecc4265b-fec6-4bc6-96a9-67f127c36352.png)
 
 
-생성된 버킷의 이름(파란색)을 눌러 버킷에 들어가줍니다.
+생성된 버킷의 이름을 눌러 버킷에 들어가줍니다.
 
 
 ![image](https://user-images.githubusercontent.com/80688900/172997927-71be7697-6d36-4915-8e24-05a77f87ce2a.png)
