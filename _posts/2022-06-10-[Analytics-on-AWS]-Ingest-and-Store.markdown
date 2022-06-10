@@ -198,7 +198,7 @@ Username에는 admin을 입력하고 Password에 비밀번호를 설정합니다
 ![image](https://user-images.githubusercontent.com/80688900/173006747-2116674f-7957-4b15-b38e-0baec9813a61.png)
 
 
-로그인하면 나오는 페이지에서 위와 같이 설정하고 다음을 복사합니다.
+로그인하면 나오는 페이지에서 위와 같이 설정하고 코드를 복사해와야 합니다. 중괄호를 사용하면 liquid error가 발생해 글에 넣지는 못했고, <https://catalog.us-east-1.prod.workshops.aws/workshops/44c91c21-a6a4-4b56-bd95-56bd443aa449/ko-KR/lab-guide/ingest>의 하단에 코드블럭이 있습니다.
 
 
 ![image](https://user-images.githubusercontent.com/80688900/173006938-adddcfe8-1177-4d60-a893-d7f950a71d4b.png)
