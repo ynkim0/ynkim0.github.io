@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Analyze with Athena"
+title:  "[Analytics on AWS] Analyze with Athena"
 author: 김예나
 date:   2022-06-17 21:00:00 +0900
 categories: [study]
