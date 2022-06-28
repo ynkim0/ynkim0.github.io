@@ -52,4 +52,16 @@ mermaid: true
 그러다 찾은 SageMaker 노트북. 세 번째 단계인 Transform Data with AWS Glue에서 잠깐 사용했던 것이 종료되지 않고 계속 켜져 있었습니다. Glue 콘솔에서 ETL - Notebooks(legacy)에 있습니다. 즉시 노트북을 중지하고 삭제했습니다.
 
 
-여기까지 진행한 후 문의에 답장했더니 AWS의 공동 책임 모델 문서를 읽고 동의해 달라고 하셨고, 주말이다 보니 아직 답장은 오지 않았습니다. 과정이 끝나면 글을 마저 수정하고, 조만간 다시 처음부터 워크샵을 진행한 후 Warehouse on Redshift도 포스팅할 예정입니다.
+여기까지 진행한 후 문의에 답장했더니 AWS의 공동 책임 모델 문서를 읽고 동의해 달라고 하셨고, 동의한다는 내용의 답을 보내고 나니 주말이 지나고 답장이 도착했습니다.(크레딧과 함께!)
+
+
+![image](https://user-images.githubusercontent.com/80688900/176157831-5ef0a5d9-4b62-4949-85e4-2e6ea63041da.png)
+
+
+크레딧이 자동으로 적용된다는 내용이었고, 대쉬보드를 확인해보니 요금이 거의 사라져 있었습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/176158338-77304c29-f4a0-4e98-b4bc-8551d5d5ea38.png)
+
+
+휴... 마침 EC2 프리티어 경고 메일도 도착했길래 인스턴스 종료도 바로 진행했습니다. 조만간 다시 처음부터 워크샵을 진행한 후 Warehouse on Redshift도 포스팅할 예정입니다.
