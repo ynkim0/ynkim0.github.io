@@ -1,0 +1,158 @@
+---
+layout: post
+title:  "교통사고 자료 분석(1)"
+author: 김예나
+date:   2022-10-09 16:00:00 +0900
+categories: [project]
+tags: [machine learning]
+math: true
+mermaid: true
+---
+
+
+
+이번 프로젝트에서는 교통사고분석시스템 [TAAS]의 데이터를 시각화하여 2017 ~ 2021년 사이의 교통사고 데이터를 분석해 보려 합니다.
+
+
+## 1\. 교통사고 추세
+
+
+![image](https://user-images.githubusercontent.com/80688900/194738160-1f732533-501b-44f1-9174-164ee6ec0c9f.png)
+
+출처 : <http://taas.koroad.or.kr/sta/acs/exs/typical.do?menuId=WEB_KMP_OVT_UAS_ASA>
+
+
+현재 우리나라의 교통사고 건수는 2019년 이후로 서서히 줄어 가는 추세이지만, 여전히 년 당 200000 건 이상의 사고가 발생하고 있습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194738252-047588d5-c193-4ee4-84a9-d18666c11e19.png)
+
+출처 : <http://taas.koroad.or.kr/sta/acs/gus/selectOecdTfcacd.do?menuId=WEB_KMP_OVT_MVT_TAC_OAO>
+
+
+자동차 1만 대 기준으로 OECD 국가 중에서는 월등히 사고 건 수가 많은 멕시코와 칠레를 제외하면 제법 높은 편입니다. 교통사고를 줄이기 위해서는 교통사고의 요인을 파악해야 할 것입니다. 이제부터 기상상태, 도로, 운전자 등의 분류로 나뉜 요인들 중에서 어떤 요인이 교통사고에 큰 영향을 미치는지 알아보겠습니다.
+
+
+## 2\. 기상상태
+
+
+![image](https://user-images.githubusercontent.com/80688900/194738623-9a479136-8b12-4703-9c28-01dc65f6135c.png)
+
+출처 : <http://taas.koroad.or.kr/sta/acs/exs/typical.do?menuId=WEB_KMP_OVT_UAS_ASA>
+
+
+일반적으로 눈 또는 비가 오는 날이면 운전하기가 더 어렵기 때문에 저는 기상 악화가 교통사고 수에 크게 영향을 줄 것이라고 예상했지만, 의외의 결과가 나왔습니다. 교통사고는 대부분의 경우 맑은 날에 발생하고 있습니다. 이것은 어쩌면 1년 중 맑은 날이 나머지 날보다 압도적으로 많아서일 수도 있고, 기상 상태가 좋지 않은 날에는 운전자들이 안전 운전을 위해 더 노력하기 때문이라고 예상해볼 수 있습니다.
+
+
+## 3\. 운전자
+
+
+오히려 맑은 날에 더 많은 사고가 발생했다는 점에서, "방심"에 키워드를 맞추고 운전 경력(면허 경과 수년) 별 사고 수를 살펴보도록 하겠습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194738831-e9b737cd-5a22-47b8-b72d-6aa59dcd09b2.png)
+
+출처 : <http://taas.koroad.or.kr/sta/acs/exs/typical.do?menuId=WEB_KMP_OVT_UAS_ASA>
+
+
+이 결과에 따르면, 면허 경과 수년 15년 이하의 운전자를 모두 합해도 15년 이상인 운전자로부터 더 많은 사고가 발생했음을 알 수 있습니다. 물론 40년 이상 운전을 하는 운전자들도 있을 것이기 때문에 이것은 단지 인구 비율의 문제일 수도 있습니다. 조금 더 정확한 분석을 위해 연령대 별 사고 수를 확인해 봅시다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194739024-798349e9-51ae-4559-8035-e256d61b5909.png)
+
+출처 : <http://taas.koroad.or.kr/sta/acs/exs/typical.do?menuId=WEB_KMP_OVT_UAS_ASA>
+
+
+51 ~ 60세의 운전자들로부터 가장 많은 사고가 발생하고 있습니다. 하지만 다른 나이대와 심한 차이가 나는 것은 아닙니다. 오히려 고르게 분포되어 있는 편입니다. 일반적으로 면허를 21 ~ 30세 사이에 딴다는 기준 하에서 생각해 보면 면허 경과 수년이 지날수록 방심 때문에 더 많은 사고를 일으킨다는 판단은 지나친 비약이라는 결론을 내릴 수 있었습니다.
+
+
+## 4\. 시간대
+
+
+![image](https://user-images.githubusercontent.com/80688900/194739219-f67ca5e6-9f19-448f-bb1f-7d3057e470a7.png)
+
+
+차 통행량이 적은 새벽 시간대를 제외하고 고른 분포입니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194739384-72f3fca2-d795-4723-bacc-ed8bc8119396.png)
+
+
+요일 별로도 큰 차이가 없다는 것을 확인할 수 있습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194739488-040bb758-ee9d-4050-a348-2e14273d1a13.png)
+
+
+월 별 사고량도 마찬가지입니다.
+
+
+따라서 시간대는 교통사고 수에 영향을 거의 미치지 못한다는 결론을 내렸습니다.
+
+
+## 5\. 도로
+
+
+![image](https://user-images.githubusercontent.com/80688900/194739684-e502f154-25e8-47b9-b36a-71b2f634ee71.png)
+
+
+이번에도 예상과 달리 커브길에서의 사고보다 직선길에서의 사고가 압도적으로 많았습니다. 어떤 종류의 도로인지 좀 더 자세히 살펴봅시다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194739879-9f7a0bb5-4985-45b6-998c-c34b0cf9416a.png)
+
+
+기타 단일로와 교차로(교차로 내, 교차로 횡단보도 내, 교차로 부근)가 거의 절반 씩을 차지하고 있는 것을 확인할 수 있습니다.
+
+
+## 6\. 사고 유형
+
+
+![image](https://user-images.githubusercontent.com/80688900/194740054-fb43deee-e45f-4af0-8c14-7fc28e7b2cf7.png)
+
+
+사고유형 대분류에서는 차대 차 사고가 75% 가량을 차지하고 있습니다. 그래서 차대 차 사고에는 어떤 종류가 있는지 살펴보았습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194740123-41159bed-4319-49b7-b34d-a4fb387892bb.png)
+
+
+측면 충돌 사고가 가장 많았으며 추돌의 정의를 찾아 보니 차가 뒤에서 들이받는 것이라고 합니다. 추돌은 주로 단일로에서, 측면 충돌은 주로 교차로에서 발생할 것이라고 예상해볼 수 있습니다.
+
+
+## 7\. 법규 위반
+
+
+다음으로는 어떤 법규를 위반해 사고가 발생했는지 알아보았습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194740318-8a289dbb-61d1-4a6c-a17a-cbe7dd891419.png)
+
+
+놀랍게도 "안전운전의무불이행" 법규가 50% 가량을 차지하고 있었습니다. 다른 법규들은 대충 이해가 가는데 대체 어떤 법규인지 잘 파악이 되지 않아 인터넷에 검색을 해보았습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194740519-af0384d0-d5aa-4947-a0a6-6f50bb5b662f.png)
+
+출처 : <https://www.koroad.or.kr/kp_web/safeDriveObligation.do>
+
+
+도로교통공단에 따르면 정의는 위와 같으며, 분류로는 운전 중 휴대전화 사용, 운전 중 DMB 시청, 안전띠 미착용, 난폭운전, 보복운전, 방향지시등 등이 있었습니다. 신호 위반, 과속과 같은 '법령 위반'같은 느낌보다는 '기본'이라는 생각이 먼저 듭니다. 특히 운전 중 휴대전화 사용이나 DMB 시청 같은 문제는 아까 화두로 떠오른 방심과 큰 연관이 있습니다.
+
+
+## 8\. 지역
+
+
+![image](https://user-images.githubusercontent.com/80688900/194741959-0009d74c-1fb5-4d04-a92d-af39a4a48730.png)
+
+
+당연하게도 통행량이 가장 많은 특별광역시도와 시도에서 대부분의 사고가 발생하고 있습니다.
+
+
+![image](https://user-images.githubusercontent.com/80688900/194742291-01a60104-59c2-4b10-af7a-d20841b14b4e.png)
+
+
+folium으로 지도를 그려 보면 위와 같은 결과를 얻을 수 있는데 서울과 경기도에서 대부분의 사고가 일어나고 있음을 확인하였습니다. 다만 경기도에서 가장 많은 사고가 일어난 것으로 표시되었습니다. 면적이 넓기 때문인 것 같습니다.
+
+
+[TAAS]: http://taas.koroad.or.kr/
